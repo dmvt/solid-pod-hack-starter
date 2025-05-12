@@ -1,7 +1,7 @@
 # Multi-stage build for Svelte 5 + Tailwind CSS frontend with Solid PODs integration
 
 # ===== BUILDER STAGE =====
-FROM node:22.1.5 AS builder
+FROM node:22.15 AS builder
 
 # Set working directory
 WORKDIR /app
@@ -27,7 +27,7 @@ COPY . .
 RUN pnpm build
 
 # ===== RUNTIME STAGE =====
-FROM node:22.1.5 AS runtime
+FROM node:22.15 AS runtime
 
 # Set working directory
 WORKDIR /app
