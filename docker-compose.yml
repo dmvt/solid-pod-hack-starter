@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      target: builder # Use the builder stage for development
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "7000:7000"
+    command: pnpm dev
+    environment:
+      - NODE_ENV=development
+      - SOLID_POD_SERVER=http://solid-pod:3000
+    depends_on:
+      - solid-pod
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7000"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  solid-pod:
+    image: solidproject/community-server:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - solid-data:/data
+    environment:
+      - PORT=3000
+      - BASE_URL=http://localhost:3000
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  node_modules:
+  solid-data:
