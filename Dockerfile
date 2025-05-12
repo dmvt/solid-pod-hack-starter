@@ -14,7 +14,11 @@ COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies using pnpm with caching
 RUN --mount=type=cache,target=/root/.pnpm-store \
-    pnpm install --frozen-lockfile
+    if [ -f pnpm-lock.yaml ]; then \
+        pnpm install --frozen-lockfile; \
+    else \
+        pnpm install; \
+    fi
 
 # Copy the rest of the application code
 COPY . .
