@@ -7,15 +7,16 @@ services:
       - .:/app
       - node_modules:/app/node_modules
     ports:
-      - "7000:7000"
-    command: pnpm dev
+      - "${DEV_PORT:-7000}:${DEV_PORT:-7000}"
+    entrypoint: /app/entrypoint.sh
+    command: sh -c "pnpm env:init && pnpm dev"
+    env_file: .env
     environment:
       - NODE_ENV=development
-      - SOLID_POD_SERVER=http://solid-pod:3000
     depends_on:
       - solid-pod
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7000"]
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:${DEV_PORT:-7000}"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -27,9 +28,10 @@ services:
       - "3000:3000"
     volumes:
       - solid-data:/data
+    env_file: .env
     environment:
       - PORT=3000
-      - BASE_URL=http://localhost:3000
+      - BASE_URL=${LOCAL_SOLID_POD:-http://localhost:3000}
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
       interval: 10s

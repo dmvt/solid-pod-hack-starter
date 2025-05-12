@@ -23,6 +23,9 @@ RUN --mount=type=cache,target=/root/.pnpm-store \
 # Copy the rest of the application code
 COPY . .
 
+# Make entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
+
 # Build the application
 RUN pnpm build
 
@@ -42,12 +45,14 @@ RUN npm install -g pnpm
 COPY --from=builder --chown=appuser:appuser /app/node_modules ./node_modules
 COPY --from=builder --chown=appuser:appuser /app/dist ./dist
 COPY --from=builder --chown=appuser:appuser /app/package.json ./package.json
+COPY --from=builder --chown=appuser:appuser /app/entrypoint.sh ./entrypoint.sh
 
 # Switch to non-root user
 USER appuser
 
-# Expose port for the application
-EXPOSE 7000
+# Expose port for the application (default 7000, can be overridden by environment variable)
+EXPOSE ${DEV_PORT:-7000}
 
-# Start the application
+# Set entrypoint and start command
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["pnpm", "start"]
