@@ -14,6 +14,7 @@ This repository serves as the frontend component for the Solid Pod Hack project.
 - Integration with Solid PODs for decentralized data storage
 - User authentication via WebID/OIDC login
 - Accessibility-focused UI components
+- Environment variable configuration for different deployment scenarios
 
 ## Development Guidelines
 
@@ -21,6 +22,7 @@ This repository serves as the frontend component for the Solid Pod Hack project.
 - Use Tailwind utility classes for all styling (utility-first approach)
 - Implement Solid POD authentication and data storage
 - Ensure responsive layouts and accessibility compliance
+- Use environment variables for configuration management
 
 ## Getting Started
 
@@ -73,9 +75,45 @@ If you prefer to run the application without Docker:
    ```bash
    pnpm install
    ```
-4. Start the development server:
+4. Configure environment variables by creating a `.env.local` file based on `.env.example`
+5. Start the development server:
    ```bash
    pnpm dev
    ```
 
 You'll also need to set up a Solid Pod server separately for full functionality.
+
+## Environment Variables
+
+The application uses environment variables for configuration. These are managed through Vite's environment variable system, which uses the file-based approach.
+
+### Available Environment Files
+
+- `.env`: Default environment variables loaded in all cases
+- `.env.development`: Development environment variables (loaded when running in development mode)
+- `.env.production`: Production environment variables (loaded when building for production)
+- `.env.local`: Local overrides (gitignored for local development, takes precedence over other files)
+
+### Configuration Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VITE_SOLID_POD_SERVER` | URL of the Solid Pod server | `http://localhost:3000` |
+| `VITE_MODE` | Application mode (`development` or `production`) | `development` |
+| `VITE_API_TIMEOUT` | API request timeout in milliseconds | `30000` |
+| `VITE_APP_NAME` | Application name for display | `Solid Pod Hack` |
+
+### Using Environment Variables in Code
+
+The application includes a configuration utility to access environment variables in a consistent way:
+
+```javascript
+import { env } from './config/env.js';
+
+// Access environment variables through the env object
+console.log(env.SOLID_POD_SERVER); // => The configured Solid Pod server URL
+console.log(env.IS_DEV);          // => Boolean indicating development mode
+console.log(env.API_TIMEOUT);     // => API timeout in milliseconds
+```
+
+This approach provides type safety, default values, and consistent access patterns throughout the application.
