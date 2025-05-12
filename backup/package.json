@@ -4,10 +4,10 @@
   "description": "Svelte 5 + Tailwind CSS + Solid PODs frontend",
   "type": "module",
   "scripts": {
-    "dev": "npx ts-node ./scripts/check-env.ts && vite dev --port 7000 --host",
+    "dev": "npx ts-node ./scripts/check-env.ts && vite --port 7000",
     "build": "npx ts-node ./scripts/check-env.ts && vite build",
-    "preview": "vite preview --port 7000 --host",
-    "start": "vite preview --port 7000 --host",
+    "preview": "vite preview",
+    "start": "vite preview --port 7000",
     "env:init": "npx ts-node ./scripts/env-init.ts",
     "test": "jest",
     "test:ci": "node ./scripts/run-tests.js"
@@ -37,10 +37,6 @@
   },
   "dependencies": {
     "@inrupt/solid-client": "^2.0.0",
-    "@inrupt/solid-client-authn-browser": "^2.0.0",
-    "@sveltejs/adapter-auto": "^6.0.0",
-    "@sveltejs/kit": "^2.20.8",
-    "babel-preset-solid": "^1.9.6",
-    "solid-js": "^1.9.6"
+    "@inrupt/solid-client-authn-browser": "^2.0.0"
   }
 }
