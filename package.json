@@ -4,11 +4,11 @@
   "description": "Svelte 5 + Tailwind CSS + Solid PODs frontend",
   "type": "module",
   "scripts": {
-    "dev": "node -r ts-node/register ./scripts/check-env.ts && vite --port 7000",
-    "build": "node -r ts-node/register ./scripts/check-env.ts && vite build",
+    "dev": "npx ts-node ./scripts/check-env.ts && vite --port 7000",
+    "build": "npx ts-node ./scripts/check-env.ts && vite build",
     "preview": "vite preview",
     "start": "vite preview --port 7000",
-    "env:init": "node -r ts-node/register ./scripts/env-init.ts",
+    "env:init": "npx ts-node ./scripts/env-init.ts",
     "test": "jest"
   },
   "keywords": [
