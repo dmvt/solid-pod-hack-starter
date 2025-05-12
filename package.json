@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "start": "vite preview --port 7000",
     "env:init": "npx ts-node ./scripts/env-init.ts",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "node ./scripts/run-tests.js"
   },
   "keywords": [
     "svelte",
